@@ -1,8 +1,31 @@
 services:
+  mariadb:
+    build:
+      context: ./mariadb/
+    image: my-mariadb
+    container_name: my-mariadb
+    network:
+      - app-network
+
+  wordpress:
+    build:
+      context: ./wordpress/
+    image: my-wordpress
+    container_name: my-wordpress
+    network:
+      - app-network
+
   nginx:
     build:
-      context: .
+      context: ./nginx/
     image: my-nginx-image
+    container_name: my-nginx-image
     ports:
       - "8080:443"
     restart: always
+    network:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

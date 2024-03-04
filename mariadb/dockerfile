@@ -1,0 +1,8 @@
+FROM debian:bullseys
+
+
+RUN apt update && \
+    apt install mariadb
+
+
+EXPOSE 3306
