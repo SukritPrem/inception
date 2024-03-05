@@ -9,7 +9,6 @@ RUN apt-get update && \
     # && \
     # apt install -y vim 
     # rm -rf /var/lib/apt/lists/*
-
 # Expose the MySQL default port
 EXPOSE 3306
 

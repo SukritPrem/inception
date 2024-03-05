@@ -2,17 +2,22 @@ FROM debian:bullseye
 
 COPY entrypoint.sh /usr/local/bin/
 
-RUN apt update && \
-    apt install -y php7.4 php7.4-fpm  \
-    apt install net-tools \
-    apt install -y syetemctl
+RUN apt update \
+    && apt install -y php7.4 php7.4-fpm  \
+    && apt install net-tools \
+    && apt install -y systemctl \
+    && apt-get install -y wget tar 
+    # && wget -O /tmp/wordpress.tar.gz https://wordpress.org/latest.tar.gz \
+    # && tar -xzvf /tmp/wordpress.tar.gz -C /var/www/html \
+    # && chown -R www-data.www-data /var/www/html/wordpress \
+    # && chmod -R 755 /var/www/html/wordpress
 
 COPY www.conf /etc/php/7.4/fpm/pool.d/
 
+COPY entrypoint.sh /usr/local/bin/
+
 EXPOSE 9000
 
-# Set the entrypoint
 ENTRYPOINT ["entrypoint.sh"]
 
-
-CMD ["php7.4-fpm ", "-F"]
+CMD ["php-fpm7.4", "-F"]
