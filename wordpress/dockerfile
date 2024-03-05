@@ -1,11 +1,18 @@
-FROM debian:bullseys
+FROM debian:bullseye
 
+COPY entrypoint.sh /usr/local/bin/
 
 RUN apt update && \
-    apt install php php-mysql \
-    php-fpm php-curl php-gd php-intl \
-    php-mbstring php-soap php-xml php-xmlrpc \
-    php-zip mariadb-server mariadb-client
+    apt install -y php7.4 php7.4-fpm  \
+    apt install net-tools \
+    apt install -y syetemctl
 
+COPY www.conf /etc/php/7.4/fpm/pool.d/
 
 EXPOSE 9000
+
+# Set the entrypoint
+ENTRYPOINT ["entrypoint.sh"]
+
+
+CMD ["php7.4-fpm ", "-F"]

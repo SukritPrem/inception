@@ -1,8 +1,8 @@
-FROM debian:bullseys
+FROM debian:bullseye
 
 
 RUN apt update && \
-    apt install nginx
+    apt install -y nginx
 
 
 EXPOSE 443
