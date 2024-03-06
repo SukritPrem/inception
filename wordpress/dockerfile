@@ -6,7 +6,11 @@ RUN apt update \
     && apt install -y php7.4 php7.4-fpm  \
     && apt install net-tools \
     && apt install -y systemctl \
-    && apt-get install -y wget tar 
+    && apt-get install -y wget tar \
+    && apt install -y iproute2 \
+    && apt install -y inetutils-ping \
+    && apt install -y bind9-utils \
+    && apt install -y vim 
     # && wget -O /tmp/wordpress.tar.gz https://wordpress.org/latest.tar.gz \
     # && tar -xzvf /tmp/wordpress.tar.gz -C /var/www/html \
     # && chown -R www-data.www-data /var/www/html/wordpress \

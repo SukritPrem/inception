@@ -12,8 +12,8 @@ services:
   wordpress:
     # depends_on:
     #   - mariadb
-    # build:
-    #   context: ./wordpress/
+    build:
+      context: ./wordpress/
     image: my-wordpress
     container_name: my-wordpress
     volumes:
@@ -22,8 +22,8 @@ services:
       - app-network
 
   nginx:
-    # build:
-    #   context: ./nginx/
+    build:
+      context: ./nginx/
     depends_on:
       - wordpress
     image: my-nginx
@@ -31,6 +31,8 @@ services:
     ports:
       - "8080:443"
     restart: always
+    volumes:
+      - wordpress:/var/www/html
     networks:
       - app-network
 
