@@ -1,13 +1,13 @@
 services:
-  # mariadb:
-  #   build:
-  #     context: ./mariadb/
-  #   image: my-mariadb
-  #   container_name: my-mariadb
-  #   networks:
-  #     - app-network
-  #   volumes:
-  #     - dbdata:/var/lib/mysql
+  mariadb:
+    # build:
+    #   context: ./mariadb/
+    image: my-mariadb
+    container_name: my-mariadb
+    networks:
+      - app-network
+    volumes:
+      - dbdata:/var/lib/mysql
 
   wordpress:
     # depends_on:
@@ -17,7 +17,7 @@ services:
     image: my-wordpress
     container_name: my-wordpress
     volumes:
-      - wordpress:/var/www/html
+      - ./data/wordpress:/var/www/html
     networks:
       - app-network
 
@@ -32,15 +32,14 @@ services:
       - "8080:443"
     restart: always
     volumes:
-      - wordpress:/var/www/html
+      - ./data/wordpress:/var/www/html
     networks:
       - app-network
-
-
+      
 volumes:
-  wordpress:
-  # dbdata:
+  dbdata:
 
 networks:
   app-network:
     driver: bridge
+

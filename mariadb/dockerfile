@@ -1,7 +1,11 @@
 # Use Debian as base image
 FROM debian:bullseye
 
+
 COPY entrypoint.sh /usr/local/bin/
+
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
 # Install MariaDB server and client
 RUN apt-get update && \
     apt-get install -y mariadb-server mariadb-client && \
