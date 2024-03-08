@@ -1,40 +1,46 @@
 services:
   mariadb:
-    # build:
-    #   context: ./mariadb/
+    build:
+      context: ./mariadb/
     image: my-mariadb
     container_name: my-mariadb
     networks:
       - app-network
     volumes:
-      - dbdata:/var/lib/mysql
+      - type: volume
+        source: dbdata
+        target: /var/lib/mysql
 
-  # wordpress:
-  #   # depends_on:
-  #   #   - mariadb
-  #   # build:
-  #   #   context: ./wordpress/
-  #   image: my-wordpress
-  #   container_name: my-wordpress
-  #   volumes:
-  #     - ./data/wordpress:/var/www/html
-  #   networks:
-  #     - app-network
+  wordpress:
+    # depends_on:
+    #   - mariadb
+    build:
+      context: ./wordpress/
+    image: my-wordpress
+    container_name: my-wordpress
+    volumes:
+      - type: volume
+        source: wordpressdata
+        target: /var/www/html
+    networks:
+      - app-network
 
-  # nginx:
-  #   build:
-  #     context: ./nginx/
-  #   depends_on:
-  #     - wordpress
-  #   image: my-nginx
-  #   container_name: my-nginx
-  #   ports:
-  #     - "8080:443"
-  #   restart: always
-  #   volumes:
-  #     - ./data/wordpress:/var/www/html
-  #   networks:
-  #     - app-network
+  nginx:
+    build:
+      context: ./nginx/
+    depends_on:
+      - wordpress
+    image: my-nginx
+    container_name: my-nginx
+    ports:
+      - "8080:443"
+    restart: always
+    volumes:
+      - type: volume
+        source: wordpressdata
+        target: /var/www/html
+    networks:
+      - app-network
 
 volumes:
   dbdata:
@@ -43,6 +49,12 @@ volumes:
       type: none
       o: bind
       device: ./data/mariadb
+  wordpressdata:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./data/wordpress
 
 networks:
   app-network:
@@ -71,3 +83,16 @@ networks:
 
 # root@LAPTOP-3NLHH5KA:~# cat /var/lib/docker/volumes/inception_dbdata/_data
 # cat: /var/lib/docker/volumes/inception_dbdata/_data: No such file or directory
+
+# volumes:
+#   my-data:  # Define the explicit volume
+#   my-db:
+# services:
+#   my-service:
+#     # ... other service configurations
+#     volumes:
+#       - source=./data/service:/var/lib/my-app/data:rw
+#   my-db-service:
+#     # ... other service configurations
+#     volumes:
+#       - source=./data/db:/var/lib/db/data:rw

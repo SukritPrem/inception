@@ -10,7 +10,9 @@ RUN apt update \
     && apt install -y iproute2 \
     && apt install -y inetutils-ping \
     && apt install -y bind9-utils \
-    && apt install -y vim 
+    && apt install -y vim \
+    && apt install telnet \
+    && apt-get install -y mariadb-client
     # && wget -O /tmp/wordpress.tar.gz https://wordpress.org/latest.tar.gz \
     # && tar -xzvf /tmp/wordpress.tar.gz -C /var/www/html \
     # && chown -R www-data.www-data /var/www/html/wordpress \
