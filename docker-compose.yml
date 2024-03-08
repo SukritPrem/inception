@@ -9,37 +9,65 @@ services:
     volumes:
       - dbdata:/var/lib/mysql
 
-  wordpress:
-    # depends_on:
-    #   - mariadb
-    build:
-      context: ./wordpress/
-    image: my-wordpress
-    container_name: my-wordpress
-    volumes:
-      - ./data/wordpress:/var/www/html
-    networks:
-      - app-network
+  # wordpress:
+  #   # depends_on:
+  #   #   - mariadb
+  #   # build:
+  #   #   context: ./wordpress/
+  #   image: my-wordpress
+  #   container_name: my-wordpress
+  #   volumes:
+  #     - ./data/wordpress:/var/www/html
+  #   networks:
+  #     - app-network
 
-  nginx:
-    build:
-      context: ./nginx/
-    depends_on:
-      - wordpress
-    image: my-nginx
-    container_name: my-nginx
-    ports:
-      - "8080:443"
-    restart: always
-    volumes:
-      - ./data/wordpress:/var/www/html
-    networks:
-      - app-network
-      
+  # nginx:
+  #   build:
+  #     context: ./nginx/
+  #   depends_on:
+  #     - wordpress
+  #   image: my-nginx
+  #   container_name: my-nginx
+  #   ports:
+  #     - "8080:443"
+  #   restart: always
+  #   volumes:
+  #     - ./data/wordpress:/var/www/html
+  #   networks:
+  #     - app-network
+
 volumes:
   dbdata:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./data/mariadb
 
 networks:
   app-network:
     driver: bridge
+# services:
+#   mariadb:
+#     image: mariadb
+#     volumes:
+#       - ./mariadb/data:/var/lib/mysql
 
+# services:
+#   nginx:
+#     image: nginx
+#     volumes:
+#       - ./nginx/data:/var/www/html
+# why mariadb can't implicit path like nginx?
+
+# "Mountpoint": "/var/lib/docker/volumes/inception_dbdata/_data",
+#         "Name": "inception_dbdata",
+#         "Options": {
+#             "device": "/home/prem/inception/data/mariadb",
+#             "o": "bind",
+#             "type": "none"
+#         },
+#         "Scope": "local"
+
+# root@LAPTOP-3NLHH5KA:~# cat /var/lib/docker/volumes/inception_dbdata/_data
+# cat: /var/lib/docker/volumes/inception_dbdata/_data: No such file or directory
