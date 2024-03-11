@@ -37,7 +37,7 @@ services:
     image: my-nginx
     container_name: my-nginx
     ports:
-      - "8080:80"
+      - "8080:443"
     restart: always
     volumes:
       - type: volume

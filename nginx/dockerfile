@@ -4,13 +4,26 @@ FROM debian:bullseye
 RUN apt update \
     && apt install -y nginx \
     && apt install -y vim \
-    && apt install net-tools 
+    && apt install net-tools \
+    && apt-get install -y openssl
 
 COPY my.conf /etc/nginx/conf.d/
 
 COPY entrypoint.sh /usr/local/bin/
 
-EXPOSE 80
+
+# Generate self-signed SSL certificate and private key
+RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+    -keyout /etc/ssl/certs/certificate.key -out /etc/ssl/certs/certificate.crt \
+    -subj "/C=US/ST=State/L=City/O=Organization/CN=localhost"
+
+# Copy the generated SSL certificate and private key to Nginx directory
+RUN cp /etc/ssl/certs/certificate.crt  /etc/nginx/ssl.crt && \
+    cp /etc/ssl/certs/certificate.key /etc/nginx/ssl.key
+
+# EXPOSE 80
+
+EXPOSE 443
 
 ENTRYPOINT ["entrypoint.sh"]
 
