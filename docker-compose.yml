@@ -4,6 +4,8 @@ services:
       context: ./mariadb/
     image: my-mariadb
     container_name: my-mariadb
+    env_file:
+      - .env
     networks:
       - app-network
     volumes:
@@ -12,12 +14,14 @@ services:
         target: /var/lib/mysql
 
   wordpress:
-    # depends_on:
-    #   - mariadb
+    depends_on:
+      - mariadb
     build:
       context: ./wordpress/
     image: my-wordpress
     container_name: my-wordpress
+    env_file:
+      - .env
     volumes:
       - type: volume
         source: wordpressdata
@@ -33,7 +37,7 @@ services:
     image: my-nginx
     container_name: my-nginx
     ports:
-      - "8080:443"
+      - "8080:80"
     restart: always
     volumes:
       - type: volume
@@ -48,13 +52,13 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: ./data/mariadb
+      device: /home/ubuntu/inception/data/mariadb
   wordpressdata:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: ./data/wordpress
+      device: /home/ubuntu/inception/data/wordpress
 
 networks:
   app-network:
