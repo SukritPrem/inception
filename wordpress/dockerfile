@@ -21,7 +21,9 @@ RUN apt update \
     php-pdo \
     php-gd \
     php-cli \
-    php-mbstring
+    php-mbstring \
+    php-redis \
+    redis-server
     # && wget -O /tmp/wordpress.tar.gz https://wordpress.org/latest.tar.gz \
     # && tar -xzvf /tmp/wordpress.tar.gz -C /var/www/html \
     # && chown -R www-data.www-data /var/www/html/wordpress \

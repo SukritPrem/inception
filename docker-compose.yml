@@ -12,10 +12,19 @@ services:
       - type: volume
         source: dbdata
         target: /var/lib/mysql
-
+  redis:
+    depends_on:
+      - mariadb
+    build:
+      context: ./redis/
+    image: my-redis
+    container_name: my-redis
+    networks:
+      - app-network
   wordpress:
     depends_on:
       - mariadb
+      - redis
     build:
       context: ./wordpress/
     image: my-wordpress
@@ -28,7 +37,6 @@ services:
         target: /var/www/html
     networks:
       - app-network
-
   nginx:
     build:
       context: ./nginx/
