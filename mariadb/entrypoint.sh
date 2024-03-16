@@ -6,15 +6,15 @@ service mariadb start
 
 sleep 5
 
-if [ -d "/var/lib/mysql/$DB_NAME" ]; then
+if [ -f "$DB_NAME_FILE" ]; then
     # Move database_dump.sql to /var/lib/mysql/$DB_NAME directory if $DB_NAME directory exists
     echo "Hello1"
-    mv database_dump.sql "/var/lib/mysql"
-    if [ -f "/var/lib/mysql/database_dump.sql" ]; then
+    mv $DB_NAME_FILE "/var/lib/mysql"
+    if [ -f "/var/lib/mysql/$DB_NAME_FILE" ]; then
         echo "Hi"
-        mysql -u "$DB_USER" -p"$DB_PASSWORD" "$DB_NAME" < "/var/lib/mysql/database_dump.sql"
+        mysql -u "$DB_USER" -p"$DB_PASSWORD" "$DB_NAME" < "/var/lib/mysql/$DB_NAME_FILE"
     fi
-    mysqldump -u "$DB_USER" -p"$DB_PASSWORD" "$DB_NAME" > "/var/lib/mysql/database_dump.sql"
+    mysqldump -u "$DB_USER" -p"$DB_PASSWORD" "$DB_NAME" > "/var/lib/mysql/$DB_NAME_FILE"
 else
     echo "Hello2"
     mariadb <<EOF
@@ -25,7 +25,7 @@ else
 EOF
 
     # Dump the database into /var/lib/mysql/$DB_NAME/database_dump.sql
-    mysqldump -u "$DB_USER" -p"$DB_PASSWORD" "$DB_NAME" > "/var/lib/mysql/database_dump.sql"
+    mysqldump -u "$DB_USER" -p"$DB_PASSWORD" "$DB_NAME" > "/var/lib/mysql/$DB_NAME_FILE"
 fi
 
 
