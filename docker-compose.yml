@@ -21,6 +21,14 @@ services:
     container_name: my-redis
     networks:
       - app-network
+  ftp_server:
+    image: my-ftp-server
+    ports:
+      - "21:21"
+    volumes:
+      - type: volume
+        source: wordpressdata
+        target: /var/www/html
   wordpress:
     depends_on:
       - mariadb
