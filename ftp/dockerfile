@@ -1,5 +1,5 @@
 # Use the official Debian image as base
-FROM debian:latest
+FROM debian:bullseye
 
 # Update package lists and install vsftpd
 RUN apt-get update && \

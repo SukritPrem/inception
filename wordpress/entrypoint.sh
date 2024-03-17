@@ -8,9 +8,11 @@ service php7.4-fpm stop
 
 wget -O /tmp/wordpress.tar.gz https://wordpress.org/latest.tar.gz 
 
-mkdir /var/www
+# mkdir /var/www
 
-mkdir /var/www/html
+# mkdir /var/www/html
+
+mkdir -p /var/www/html
 
 tar -xzvf /tmp/wordpress.tar.gz -C /var/www/html 
 

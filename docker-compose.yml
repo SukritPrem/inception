@@ -1,4 +1,12 @@
 services:
+  adminer:
+    build:
+      context: ./adminer/
+    image: my-adminer
+    container_name: my-adminer
+    restart: always
+    networks:
+      - app-network
   mariadb:
     build:
       context: ./mariadb/

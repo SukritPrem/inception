@@ -1,21 +1,20 @@
 FROM debian:bullseye
 
-# Update packages and install necessary tools
-RUN apt-get update && apt-get install -y \
-    php-fpm \
-    nginx \
-    wget \
-    && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y php php-fpm php-mysqli \
+    && apt install net-tools 
 
-# Download and install Adminer
-RUN mkdir -p /var/www/html && \
-    wget -O /var/www/html/adminer.php https://www.adminer.org/latest.php
+COPY adminer-4.8.1.php /
 
-# Create a PHP-FPM pool configuration for Adminer
-RUN echo "listen = 9000" > /etc/php/7.4/fpm/pool.d/adminer.conf
+COPY entrypoint.sh /usr/local/bin/
 
-# Expose ports
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+COPY www.conf /etc/php/7.4/fpm/pool.d/
+
 EXPOSE 9000
 
-# Start PHP-FPM
-CMD ["php-fpm7.4", "--nodaemonize"]
+
+ENTRYPOINT ["entrypoint.sh"]
+
+# Run php-fpm in foreground
+CMD ["php-fpm7.4", "-F"]
