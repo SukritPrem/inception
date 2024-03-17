@@ -1,0 +1,21 @@
+# Use the official Debian image as base
+FROM debian:latest
+
+# Update package lists and install vsftpd
+RUN apt-get update && \
+    apt-get install -y vsftpd
+
+# Copy vsftpd configuration file
+COPY vsftpd.conf /etc/vsftpd.conf
+
+COPY entrypoint.sh /usr/local/bin/
+
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+# Expose FTP port
+EXPOSE 20 21
+
+ENTRYPOINT ["entrypoint.sh"]
+
+# Run vsftpd in foreground
+CMD ["vsftpd", "/etc/vsftpd.conf"]
