@@ -1,4 +1,13 @@
 services:
+  prometheus:
+    build:
+      context: ./prometheus/
+    image: my-prometheus
+    container_name: my-prometheus
+    ports:
+      - "9090:9090"
+    networks:
+      - app-network
   adminer:
     build:
       context: ./adminer/
@@ -7,82 +16,82 @@ services:
     restart: always
     networks:
       - app-network
-  mariadb:
-    build:
-      context: ./mariadb/
-    image: my-mariadb
-    container_name: my-mariadb
-    env_file:
-      - .env
-    networks:
-      - app-network
-    volumes:
-      - type: volume
-        source: dbdata
-        target: /var/lib/mysql
-  redis:
-    depends_on:
-      - mariadb
-    build:
-      context: ./redis/
-    image: my-redis
-    container_name: my-redis
-    networks:
-      - app-network
-  ftp_server:
-    image: my-ftp-server
-    ports:
-      - "21:21"
-    volumes:
-      - type: volume
-        source: wordpressdata
-        target: /var/www/html
-  wordpress:
-    depends_on:
-      - mariadb
-      - redis
-    build:
-      context: ./wordpress/
-    image: my-wordpress
-    container_name: my-wordpress
-    env_file:
-      - .env
-    volumes:
-      - type: volume
-        source: wordpressdata
-        target: /var/www/html
-    networks:
-      - app-network
+  # mariadb:
+  #   build:
+  #     context: ./mariadb/
+  #   image: my-mariadb
+  #   container_name: my-mariadb
+  #   env_file:
+  #     - .env
+  #   networks:
+  #     - app-network
+  #   volumes:
+  #     - type: volume
+  #       source: dbdata
+  #       target: /var/lib/mysql
+  # redis:
+  #   depends_on:
+  #     - mariadb
+  #   build:
+  #     context: ./redis/
+  #   image: my-redis
+  #   container_name: my-redis
+  #   networks:
+  #     - app-network
+  # ftp_server:
+  #   image: my-ftp-server
+  #   ports:
+  #     - "21:21"
+  #   volumes:
+  #     - type: volume
+  #       source: wordpressdata
+  #       target: /var/www/html
+  # wordpress:
+  #   depends_on:
+  #     - mariadb
+  #     - redis
+  #   build:
+  #     context: ./wordpress/
+  #   image: my-wordpress
+  #   container_name: my-wordpress
+  #   env_file:
+  #     - .env
+  #   volumes:
+  #     - type: volume
+  #       source: wordpressdata
+  #       target: /var/www/html
+  #   networks:
+  #     - app-network
   nginx:
     build:
       context: ./nginx/
-    depends_on:
-      - wordpress
+    # depends_on:
+    #   - wordpress
     image: my-nginx
     container_name: my-nginx
     ports:
       - "8080:443"
     restart: always
-    volumes:
-      - type: volume
-        source: wordpressdata
-        target: /var/www/html
+    # volumes:
+    #   - type: volume
+    #     source: wordpressdata
+    #     target: /var/www/html
     networks:
       - app-network
 
-volumes:
-  dbdata:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: /home/ubuntu/inception/data/mariadb
-  wordpressdata:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: /home/ubuntu/inception/data/wordpress
+# volumes:
+  # dbdata:
+  #   driver: local
+  #   driver_opts:
+  #     type: none
+  #     o: bind
+  #     device: /home/ubuntu/inception/data/mariadb
+  # wordpressdata:
+  #   driver: local
+  #   driver_opts:
+  #     type: none
+  #     o: bind
+  #     device: /home/ubuntu/inception/data/wordpress
 
 networks:
   app-network:

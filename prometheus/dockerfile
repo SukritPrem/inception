@@ -1,0 +1,25 @@
+FROM debian:bullseye
+
+RUN apt-get update && \
+    apt-get install -y openssl \
+    wget \
+    prometheus \
+    vim \
+    systemd \
+    net-tools \
+    ufw
+
+COPY prometheus.yml  /etc/prometheus/prometheus.yml 
+
+COPY entrypoint.sh /usr/local/bin/
+
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+# Expose Prometheus web UI port (default 9090)
+EXPOSE 9090
+
+EXPOSE 9100
+# ENTRYPOINT ["/usr/bin/prometheus"]
+
+# # Run Prometheus with server listening on all interfaces (0.0.0.0)
+CMD ["/usr/bin/prometheus"]
