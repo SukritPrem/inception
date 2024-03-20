@@ -34,8 +34,8 @@ services:
       - mariadb
     build:
       context: ./redis/
-    image: my-redis
-    container_name: my-redis
+    image: redis
+    container_name: redis
     networks:
       - app-network
   # ftp_server:

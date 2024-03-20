@@ -45,7 +45,7 @@ cd /var/www/html/wordpress
 
 # config add redis
 # Change directory for add config redis to wordpress
-wp config set WP_REDIS_HOST  my-redis --allow-root
+wp config set WP_REDIS_HOST redis --allow-root
 wp config set WP_REDIS_PORT '6379' --raw --allow-root
 # wp config set WP_REDIS_PREFIX 'my-moms-site' --raw --no-cast
 wp config set WP_REDIS_DATABASE '0' --raw --allow-root
