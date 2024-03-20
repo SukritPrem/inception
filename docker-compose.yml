@@ -1,21 +1,21 @@
 services:
-  prometheus:
-    build:
-      context: ./prometheus/
-    image: my-prometheus
-    container_name: my-prometheus
-    ports:
-      - "9090:9090"
-    networks:
-      - app-network
-  adminer:
-    build:
-      context: ./adminer/
-    image: my-adminer
-    container_name: my-adminer
-    restart: always
-    networks:
-      - app-network
+  # prometheus:
+  #   build:
+  #     context: ./prometheus/
+  #   image: my-prometheus
+  #   container_name: my-prometheus
+  #   ports:
+  #     - "9090:9090"
+  #   networks:
+  #     - app-network
+  # adminer:
+  #   build:
+  #     context: ./adminer/
+  #   image: my-adminer
+  #   container_name: my-adminer
+  #   restart: always
+  #   networks:
+  #     - app-network
   # mariadb:
   #   build:
   #     context: ./mariadb/
@@ -70,7 +70,7 @@ services:
     image: my-nginx
     container_name: my-nginx
     ports:
-      - "8080:443"
+      - "443:443"
     restart: always
     # volumes:
     #   - type: volume
@@ -141,3 +141,4 @@ networks:
 
 #  Source for config prometheus to found docker log
 #  https://stackoverflow.com/questions/53202260/cant-collect-docker-metrics-using-prometheus
+#  https://blog.devops.dev/monitoring-docker-container-performance-with-prometheus-and-grafana-52d611721907
