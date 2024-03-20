@@ -1,13 +1,13 @@
 services:
-  # prometheus:
-  #   build:
-  #     context: ./prometheus/
-  #   image: my-prometheus
-  #   container_name: my-prometheus
-  #   ports:
-  #     - "9090:9090"
-  #   networks:
-  #     - app-network
+  prometheus:
+    build:
+      context: ./bounus/prometheus/
+    image: prometheus
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    networks:
+      - app-network
   adminer:
     build:
       context: ./bounus/adminer/
@@ -38,14 +38,16 @@ services:
     container_name: redis
     networks:
       - app-network
-  # ftp_server:
-  #   image: my-ftp-server
-  #   ports:
-  #     - "21:21"
-  #   volumes:
-  #     - type: volume
-  #       source: wordpressdata
-  #       target: /var/www/html
+  ftpserver:
+    build:
+      context: ./bounus/ftp/
+    container_name: ftp-server
+    ports:
+      - "21:21"
+    volumes:
+      - type: volume
+        source: wordpressdata
+        target: /var/www/html
   wordpress:
     depends_on:
       - mariadb
