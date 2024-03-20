@@ -16,28 +16,28 @@ services:
   #   restart: always
   #   networks:
   #     - app-network
-  # mariadb:
-  #   build:
-  #     context: ./mariadb/
-  #   image: my-mariadb
-  #   container_name: my-mariadb
-  #   env_file:
-  #     - .env
-  #   networks:
-  #     - app-network
-  #   volumes:
-  #     - type: volume
-  #       source: dbdata
-  #       target: /var/lib/mysql
-  # redis:
-  #   depends_on:
-  #     - mariadb
-  #   build:
-  #     context: ./redis/
-  #   image: my-redis
-  #   container_name: my-redis
-  #   networks:
-  #     - app-network
+  mariadb:
+    build:
+      context: ./mariadb/
+    image: my-mariadb
+    container_name: my-mariadb
+    env_file:
+      - .env
+    networks:
+      - app-network
+    volumes:
+      - type: volume
+        source: dbdata
+        target: /var/lib/mysql
+  redis:
+    depends_on:
+      - mariadb
+    build:
+      context: ./redis/
+    image: my-redis
+    container_name: my-redis
+    networks:
+      - app-network
   # ftp_server:
   #   image: my-ftp-server
   #   ports:
@@ -47,8 +47,8 @@ services:
   #       source: wordpressdata
   #       target: /var/www/html
   wordpress:
-    # depends_on:
-    #   - mariadb
+    depends_on:
+      - mariadb
     #   - redis
     build:
       context: ./wordpress/
@@ -67,8 +67,8 @@ services:
       context: ./nginx/
     depends_on:
       - wordpress
-    image: my-nginx
-    container_name: my-nginx
+    image: nginx
+    container_name: nginx
     ports:
       - "443:443"
     restart: always
@@ -80,12 +80,12 @@ services:
       - app-network
 
 volumes:
-  # dbdata:
-  #   driver: local
-  #   driver_opts:
-  #     type: none
-  #     o: bind
-  #     device: /home/ubuntu/inception/data/mariadb
+  dbdata:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/ubuntu/inception/data/mariadb
   wordpressdata:
     driver: local
     driver_opts:
