@@ -16,24 +16,43 @@ rule_files:
 
 # A scrape configuration containing exactly one endpoint to scrape:
 # Here it's Prometheus itself.
+
+# scrape_configs:
+#   # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+#   - job_name: prometheus
+
+#     # metrics_path defaults to '/metrics'
+#     # scheme defaults to 'http'.
+#     scrape_interval: 5s
+#     static_configs:
+#       - targets:
+#           - "localhost:9090"
+#           - "my-adminer:9000"
+#   - job_name: docker
+#     scrape_interval: 5s
+#       # metrics_path defaults to '/metrics'
+#       # scheme defaults to 'http'.
+#     #ip docker in host machine 
+#     #use command " ip a " in host machine for check ip docker
+#     static_configs:
+#       - targets: ["172.17.0.1:9323"]
+
 scrape_configs:
-  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
-  - job_name: prometheus
-
-    # metrics_path defaults to '/metrics'
-    # scheme defaults to 'http'.
-    scrape_interval: 5s
+  # Make Prometheus scrape itself for metrics.
+  - job_name: 'prometheus'
     static_configs:
-      - targets:
-          - "localhost:9090"
-          - "my-adminer:9000"
+    - targets: ['localhost:9090']
 
-
-  - job_name: docker
-    scrape_interval: 5s
-      # metrics_path defaults to '/metrics'
-      # scheme defaults to 'http'.
-    #ip docker in host machine 
-    #use command " ip a " in host machine for check ip docker
-    static_configs:
-      - targets: ["172.17.0.1:9323"]
+  # Create a job for Docker daemons.
+  - job_name: 'docker'
+    dockerswarm_sd_configs:
+      - host: unix:///var/run/docker.sock
+        role: nodes
+    relabel_configs:
+      # Fetch metrics on port 9323.
+      - source_labels: [__meta_dockerswarm_node_address]
+        target_label: __address__
+        replacement: $1:9323
+      # Set hostname as instance label
+      - source_labels: [__meta_dockerswarm_node_hostname]
+        target_label: instance
