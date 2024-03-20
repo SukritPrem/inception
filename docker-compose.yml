@@ -8,14 +8,14 @@ services:
   #     - "9090:9090"
   #   networks:
   #     - app-network
-  # adminer:
-  #   build:
-  #     context: ./adminer/
-  #   image: my-adminer
-  #   container_name: my-adminer
-  #   restart: always
-  #   networks:
-  #     - app-network
+  adminer:
+    build:
+      context: ./bounus/adminer/
+    image: adminer
+    container_name: adminer
+    restart: always
+    networks:
+      - app-network
   mariadb:
     build:
       context: ./mariadb/
@@ -33,7 +33,7 @@ services:
     depends_on:
       - mariadb
     build:
-      context: ./redis/
+      context: ./bounus/redis/
     image: redis
     container_name: redis
     networks:
