@@ -96,6 +96,11 @@ services:
 networks:
   app-network:
     driver: bridge
+
+
+
+
+
 # services:
 #   mariadb:
 #     image: mariadb
@@ -133,3 +138,6 @@ networks:
 #     # ... other service configurations
 #     volumes:
 #       - source=./data/db:/var/lib/db/data:rw
+
+#  Source for config prometheus to found docker log
+#  https://stackoverflow.com/questions/53202260/cant-collect-docker-metrics-using-prometheus
