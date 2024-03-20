@@ -46,52 +46,52 @@ services:
   #     - type: volume
   #       source: wordpressdata
   #       target: /var/www/html
-  # wordpress:
-  #   depends_on:
-  #     - mariadb
-  #     - redis
-  #   build:
-  #     context: ./wordpress/
-  #   image: my-wordpress
-  #   container_name: my-wordpress
-  #   env_file:
-  #     - .env
-  #   volumes:
-  #     - type: volume
-  #       source: wordpressdata
-  #       target: /var/www/html
-  #   networks:
-  #     - app-network
+  wordpress:
+    # depends_on:
+    #   - mariadb
+    #   - redis
+    build:
+      context: ./wordpress/
+    image: wordpress
+    container_name: wordpress
+    env_file:
+      - .env
+    volumes:
+      - type: volume
+        source: wordpressdata
+        target: /var/www/html
+    networks:
+      - app-network
   nginx:
     build:
       context: ./nginx/
-    # depends_on:
-    #   - wordpress
+    depends_on:
+      - wordpress
     image: my-nginx
     container_name: my-nginx
     ports:
       - "443:443"
     restart: always
-    # volumes:
-    #   - type: volume
-    #     source: wordpressdata
-    #     target: /var/www/html
+    volumes:
+      - type: volume
+        source: wordpressdata
+        target: /var/www/html
     networks:
       - app-network
 
-# volumes:
+volumes:
   # dbdata:
   #   driver: local
   #   driver_opts:
   #     type: none
   #     o: bind
   #     device: /home/ubuntu/inception/data/mariadb
-  # wordpressdata:
-  #   driver: local
-  #   driver_opts:
-  #     type: none
-  #     o: bind
-  #     device: /home/ubuntu/inception/data/wordpress
+  wordpressdata:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/ubuntu/inception/data/wordpress
 
 networks:
   app-network:
