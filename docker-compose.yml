@@ -19,8 +19,8 @@ services:
   mariadb:
     build:
       context: ./mariadb/
-    image: my-mariadb
-    container_name: my-mariadb
+    image: mariadb
+    container_name: mariadb
     env_file:
       - .env
     networks:
@@ -49,7 +49,7 @@ services:
   wordpress:
     depends_on:
       - mariadb
-    #   - redis
+      - redis
     build:
       context: ./wordpress/
     image: wordpress
