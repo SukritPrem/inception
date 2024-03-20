@@ -42,6 +42,8 @@ sed -i "s/localhost/$DB_HOST/" wp-config.php
 
 
 cd /var/www/html/wordpress
+
+# config add redis
 # Change directory for add config redis to wordpress
 wp config set WP_REDIS_HOST  my-redis --allow-root
 wp config set WP_REDIS_PORT '6379' --raw --allow-root
@@ -49,14 +51,15 @@ wp config set WP_REDIS_PORT '6379' --raw --allow-root
 wp config set WP_REDIS_DATABASE '0' --raw --allow-root
 # wp config set WP_REDIS_TIMEOUT 1 --raw --no-cast
 # wp config set WP_REDIS_READ_TIMEOUT 1 --raw --no-cast
-
 wp config set WP_REDIS_CLIENT 'phpredis' --allow-root
-
 wp plugin install redis-cache --activate --allow-root
-
 wp plugin update --all --allow-root
-
 wp redis enable --allow-root
+
+#change host_url
+#wp search-replace "http://localhost" "http://spipitku.42.fr" --all-tables --allow-root
+wp option update home "http://spipitku.42.fr" --allow-root
+wp option update siteurl "http://spipitku.42.fr" --allow-root
 
 cd /
 
