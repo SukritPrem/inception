@@ -11,14 +11,6 @@ RUN apt-get update && \
 
 COPY prometheus.yml  /etc/prometheus/prometheus.yml 
 
-# COPY entrypoint.sh /usr/local/bin/
-
-# RUN chmod +x /usr/local/bin/entrypoint.sh
-
-# Expose Prometheus web UI port (default 9090)
 EXPOSE 9090
 
-# ENTRYPOINT ["/usr/bin/prometheus"]
-
-# # Run Prometheus with server listening on all interfaces (0.0.0.0)
 CMD ["/usr/bin/prometheus"]
