@@ -49,6 +49,6 @@ chown -R mysql:mysql /var/lib/mysql  # Change ownership to mysql user and group
 chmod -R 755 /var/lib/mysql  
 
 #For host machine delete
-chmod 777 /var/lib/mysql
+chmod -R 777 /var/lib/mysql
 
 exec "$@"
