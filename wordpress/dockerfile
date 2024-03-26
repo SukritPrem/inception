@@ -21,7 +21,8 @@ RUN apt update \
     php-cli \
     php-mbstring \
     php-redis \
-    redis-server
+    redis-server \
+    htop
     # && wget -O /tmp/wordpress.tar.gz https://wordpress.org/latest.tar.gz \
     # && tar -xzvf /tmp/wordpress.tar.gz -C /var/www/html \
     # && chown -R www-data.www-data /var/www/html/wordpress \
@@ -31,8 +32,16 @@ COPY ./conf/www.conf /etc/php/7.4/fpm/pool.d/
 
 COPY ./tools/entrypoint.sh /usr/local/bin/
 
+RUN chmod 777 /usr/local/bin/entrypoint.sh
+
 EXPOSE 9000
+
+RUN useradd -u 1000 test
+
+# USER test
 
 ENTRYPOINT ["entrypoint.sh"]
 
-CMD ["php-fpm7.4", "-F"]
+# CMD ["php-fpm7.4", "-F"]
+
+# CMD ["sleep", "1000000000000000000000000000"]

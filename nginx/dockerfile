@@ -1,11 +1,11 @@
 FROM debian:bullseye
 
-
 RUN apt update \
     && apt install -y nginx \
     && apt install -y vim \
     && apt install net-tools \
-    && apt-get install -y openssl
+    && apt-get install -y openssl \
+    htop
 
 COPY ./conf/my.conf /etc/nginx/conf.d/
 
@@ -25,6 +25,12 @@ RUN cp /etc/ssl/certs/certificate.crt  /etc/nginx/ssl.crt && \
 
 EXPOSE 443
 
+RUN useradd -u 1000 sukrit
+
+USER sukrit
+
 ENTRYPOINT ["entrypoint.sh"]
+
+# CMD ["sleep", "1000000000000000000000000000"]
 
 CMD ["nginx", "-g", "daemon off;"]
