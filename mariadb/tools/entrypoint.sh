@@ -9,38 +9,30 @@ if [ ! -d "/var/lib/mysql" ];then
     exit 1
 fi
 
-if [ -f "$DB_NAME_FILE" ]; then
-    # Move database_dump.sql to /var/lib/mysql/$DB_NAME directory if $DB_NAME directory exists
-    echo "Hello1"
-    mv $DB_NAME_FILE "/var/lib/mysql"
-    if [ ! -d "/var/lib/mysql/$DB_NAME" ]; then
+
+if [ ! -d "/var/lib/mysql/$DB_NAME" ];then
         mariadb <<EOF
     CREATE DATABASE IF NOT EXISTS ${DB_NAME};
     CREATE USER IF NOT EXISTS '${DB_USER}'@'%' IDENTIFIED BY '${DB_PASSWORD}';
     GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'%';
     FLUSH PRIVILEGES;
 EOF
-    fi
-    
-    if [ -f "/var/lib/mysql/$DB_NAME_FILE" ]; then
-        echo "Hi"
-        mysql -u "$DB_USER" -p"$DB_PASSWORD" "$DB_NAME" < "/var/lib/mysql/$DB_NAME_FILE"
-    else
-        mysqldump -u "$DB_USER" -p"$DB_PASSWORD" "$DB_NAME" > "/var/lib/mysql/$DB_NAME_FILE"
-    fi
 else
-    echo "Hello2"
-    mariadb <<EOF
-    CREATE DATABASE IF NOT EXISTS ${DB_NAME};
-    CREATE USER IF NOT EXISTS '${DB_USER}'@'%' IDENTIFIED BY '${DB_PASSWORD}';
-    GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'%';
-    FLUSH PRIVILEGES;
-EOF
-
-    # Dump the database into /var/lib/mysql/$DB_NAME/database_dump.sql
-    mysqldump -u "$DB_USER" -p"$DB_PASSWORD" "$DB_NAME" > "/var/lib/mysql/$DB_NAME_FILE"
+    echo "Already exits"
+    service mariadb stop
+    exec "$@"
 fi
 
+if [ -f "$DB_NAME_FILE" ]; then
+    # Move database_dump.sql to /var/lib/mysql/$DB_NAME directory if $DB_NAME directory exists
+    echo "Hello1"
+    mv $DB_NAME_FILE "/var/lib/mysql"
+fi
+
+if [ -f "/var/lib/mysql/$DB_NAME_FILE" ]; then
+    echo "Hi"
+    mysql -u "$DB_USER" -p"$DB_PASSWORD" "$DB_NAME" < "/var/lib/mysql/$DB_NAME_FILE"
+fi
 
 service mariadb stop
 
