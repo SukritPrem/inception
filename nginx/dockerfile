@@ -25,9 +25,9 @@ RUN cp /etc/ssl/certs/certificate.crt  /etc/nginx/ssl.crt && \
 
 EXPOSE 443
 
-RUN useradd -u 1000 sukrit
+# RUN useradd -u 1000 sukrit
 
-USER sukrit
+# USER sukrit
 
 ENTRYPOINT ["entrypoint.sh"]
 

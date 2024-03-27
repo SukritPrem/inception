@@ -30,6 +30,8 @@ RUN apt update \
 
 COPY ./conf/www.conf /etc/php/7.4/fpm/pool.d/
 
+COPY ./conf/test.conf /etc/php/7.4/fpm/pool.d/
+
 COPY ./tools/entrypoint.sh /usr/local/bin/
 
 RUN chmod 777 /usr/local/bin/entrypoint.sh
