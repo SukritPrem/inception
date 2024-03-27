@@ -22,5 +22,5 @@ EXPOSE 3306
 # Set the entrypoint to start the MariaDB service
 ENTRYPOINT ["entrypoint.sh"]
 
-
+# CMD ["sleep", "1098765678909876789876"]
 CMD ["mysqld", "--bind-address=0.0.0.0"]

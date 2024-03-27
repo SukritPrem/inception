@@ -41,8 +41,8 @@ services:
     networks:
       - app-network
     volumes:
-      - type: bind
-        source: /home/spipitku/data/mariadb
+      - type: volume
+        source: dbdata
         target: /var/lib/mysql
   # redis:
   #   depends_on:
@@ -63,48 +63,48 @@ services:
   #     - type: volume
   #       source: wordpressdata
   #       target: /var/www/html
-  wordpress:
-    depends_on:
-      - mariadb
-      - redis
-    build:
-      context: ./wordpress/
-    image: wordpress
-    container_name: wordpress
-    env_file:
-      - .env
-    volumes:
-      - type: volume
-        source: wordpressdata
-        target: /var/www/html
-    networks:
-      - app-network
-  nginx:
-    build:
-      context: ./nginx/
-    depends_on:
-      - wordpress
-    image: nginx
-    container_name: nginx
-    ports:
-      - "443:443"
-    restart: always
-    volumes:
-      - type: volume
-        source: wordpressdata
-        target: /var/www/html
-    networks:
-      - app-network
-    env_file:
-      - .env
+  # wordpress:
+  #   depends_on:
+  #     - mariadb
+  #     - redis
+  #   build:
+  #     context: ./wordpress/
+  #   image: wordpress
+  #   container_name: wordpress
+  #   env_file:
+  #     - .env
+  #   volumes:
+  #     - type: volume
+  #       source: wordpressdata
+  #       target: /var/www/html
+  #   networks:
+  #     - app-network
+  # nginx:
+  #   build:
+  #     context: ./nginx/
+  #   depends_on:
+  #     - wordpress
+  #   image: nginx
+  #   container_name: nginx
+  #   ports:
+  #     - "443:443"
+  #   restart: always
+  #   volumes:
+  #     - type: volume
+  #       source: wordpressdata
+  #       target: /var/www/html
+  #   networks:
+  #     - app-network
+  #   env_file:
+  #     - .env
 
 volumes:
-  # dbdata:
-  #   driver: local
-  #   driver_opts:
-  #     type: none
-  #     o: bind
-  #     device: /home/spipitku/data/mariadb
+  dbdata:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/spipitku/data/mariadb
   wordpressdata:
     driver: local
     driver_opts:

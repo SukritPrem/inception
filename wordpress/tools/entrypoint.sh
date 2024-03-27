@@ -79,6 +79,9 @@ chmod -R 775 /var/log/php7.4-fpm.log
 
 chmod -R 775 /run/php/  
 
+#For host machine delete
+chmod -R 777 /var/www/html/wordpress
+
 su -c '/usr/sbin/php-fpm7.4 -F' -s /bin/bash site1user
 
 # exec "$@"

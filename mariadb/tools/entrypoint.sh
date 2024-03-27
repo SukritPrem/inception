@@ -9,7 +9,6 @@ if [ ! -d "/var/lib/mysql" ];then
     exit 1
 fi
 
-
 if [ ! -d "/var/lib/mysql/$DB_NAME" ];then
         mariadb <<EOF
     CREATE DATABASE IF NOT EXISTS ${DB_NAME};
@@ -23,7 +22,7 @@ else
     exec "$@"
 fi
 
-if [ -f "$DB_NAME_FILE" ]; then
+if [ -f "$DB_NAME_FILE" ];then
     # Move database_dump.sql to /var/lib/mysql/$DB_NAME directory if $DB_NAME directory exists
     echo "Hello1"
     mv $DB_NAME_FILE "/var/lib/mysql"

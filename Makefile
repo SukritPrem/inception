@@ -1,4 +1,4 @@
 
 
-rm -rf /home/spipitku/data/mariadb/*
-rm -rf /home/spipitku/data/wordpress/*
+rm -rf /home/spipitku/data/mariadb/
+rm -rf /home/spipitku/data/wordpress/
