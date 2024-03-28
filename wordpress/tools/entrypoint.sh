@@ -80,7 +80,7 @@ chmod -R 775 /var/log/php7.4-fpm.log
 chmod -R 775 /run/php/  
 
 #For host machine delete
-chmod -R 777 /var/www/html/wordpress
+chmod -R 777 /var/www/html
 
 su -c '/usr/sbin/php-fpm7.4 -F' -s /bin/bash site1user
 

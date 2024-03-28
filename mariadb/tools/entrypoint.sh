@@ -39,9 +39,10 @@ chown -R mysql:mysql /var/lib/mysql  # Change ownership to mysql user and group
 
 # adduser --disabled-password --gecos "" --uid $UID "$USER"
 
-chmod -R 755 /var/lib/mysql  
 
-#For host machine delete
-chmod -R 777 /var/lib/mysql
+chmod -R 777 /var/lib/mysql  
+
+# #For host machine delete
+# chmod -R 777 /var/lib/mysql
 
 exec "$@"
