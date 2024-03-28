@@ -26,3 +26,8 @@ clean-image:
 	
 clean-all:
 	docker system prune
+
+debug:
+	sudo make fclean
+	sudo make setup
+	sudo make

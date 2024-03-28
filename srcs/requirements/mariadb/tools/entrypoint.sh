@@ -10,6 +10,7 @@ if [ ! -d "/var/lib/mysql" ];then
 fi
 
 if [ ! -d "/var/lib/mysql/$MYSQL_NAME" ];then
+        # mysql -u root -p"$MYSQL_ROOT_PASSWORD"  <<EOF
         mariadb <<EOF
     CREATE DATABASE IF NOT EXISTS ${MYSQL_NAME};
     CREATE USER IF NOT EXISTS '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';
@@ -33,7 +34,7 @@ if [ -f "/var/lib/mysql/$MYSQL_NAME_FILE" ]; then
     mysql -u "$MYSQL_USER" -p"$MYSQL_PASSWORD" "$MYSQL_NAME" < "/var/lib/mysql/$MYSQL_NAME_FILE"
 fi
 
-mysql -u root -p"$MYSQL_ROOT_PASSWORD" -e "GRANT ALL ON *.* TO 'root'@'%' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD'; FLUSH PRIVILEGES;"
+# mysql -u root -p"$MYSQL_ROOT_PASSWORD" -e "GRANT ALL ON *.* TO 'root'@'%' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD'; FLUSH PRIVILEGES;"
 
 service mariadb stop
 

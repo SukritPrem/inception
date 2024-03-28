@@ -37,7 +37,7 @@ sleep 5
 sed -i "s/database_name_here/$MYSQL_NAME/" wp-config.php
 sed -i "s/username_here/$MYSQL_USER/" wp-config.php
 sed -i "s/password_here/$MYSQL_PASSWORD/" wp-config.php
-sed -i "s/localhost/$MYSQL_HOST/" wp-config.php
+sed -i "s/localhost/$MYSQL_ADDRESS/" wp-config.php
 # Keep the container running
 
 

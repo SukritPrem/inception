@@ -63,40 +63,40 @@ services:
   #     - type: volume
   #       source: wordpressdata
   #       target: /var/www/html
-  wordpress:
-    depends_on:
-      - mariadb
-      - redis
-    build:
-      context: ./requirements/wordpress/
-    image: wordpress
-    container_name: wordpress
-    env_file:
-      - .env
-    volumes:
-      - type: volume
-        source: wordpressdata
-        target: /var/www/html
-    networks:
-      - app-network
-  nginx:
-    build:
-      context: ./requirements/nginx/
-    depends_on:
-      - wordpress
-    image: nginx
-    container_name: nginx
-    ports:
-      - "443:443"
-    restart: always
-    volumes:
-      - type: volume
-        source: wordpressdata
-        target: /var/www/html
-    networks:
-      - app-network
-    env_file:
-      - .env
+  # wordpress:
+  #   depends_on:
+  #     - mariadb
+  #     # - redis
+  #   build:
+  #     context: ./requirements/wordpress/
+  #   image: wordpress
+  #   container_name: wordpress
+  #   env_file:
+  #     - .env
+  #   volumes:
+  #     - type: volume
+  #       source: wordpressdata
+  #       target: /var/www/html
+  #   networks:
+  #     - app-network
+  # nginx:
+  #   build:
+  #     context: ./requirements/nginx/
+  #   depends_on:
+  #     - wordpress
+  #   image: nginx
+  #   container_name: nginx
+  #   ports:
+  #     - "443:443"
+  #   restart: always
+  #   volumes:
+  #     - type: volume
+  #       source: wordpressdata
+  #       target: /var/www/html
+  #   networks:
+  #     - app-network
+  #   env_file:
+  #     - .env
 
 volumes:
   dbdata:
