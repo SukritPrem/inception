@@ -34,10 +34,10 @@ wp plugin install redis-cache --activate --path="/var/www/html/wordpress" --allo
 
 sleep 5
 # Generate wp-config.php content
-sed -i "s/database_name_here/$DB_NAME/" wp-config.php
-sed -i "s/username_here/$DB_USER/" wp-config.php
-sed -i "s/password_here/$DB_PASSWORD/" wp-config.php
-sed -i "s/localhost/$DB_HOST/" wp-config.php
+sed -i "s/database_name_here/$MYSQL_NAME/" wp-config.php
+sed -i "s/username_here/$MYSQL_USER/" wp-config.php
+sed -i "s/password_here/$MYSQL_PASSWORD/" wp-config.php
+sed -i "s/localhost/$MYSQL_HOST/" wp-config.php
 # Keep the container running
 
 

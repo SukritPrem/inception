@@ -9,11 +9,11 @@ if [ ! -d "/var/lib/mysql" ];then
     exit 1
 fi
 
-if [ ! -d "/var/lib/mysql/$DB_NAME" ];then
+if [ ! -d "/var/lib/mysql/$MYSQL_NAME" ];then
         mariadb <<EOF
-    CREATE DATABASE IF NOT EXISTS ${DB_NAME};
-    CREATE USER IF NOT EXISTS '${DB_USER}'@'%' IDENTIFIED BY '${DB_PASSWORD}';
-    GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'%';
+    CREATE DATABASE IF NOT EXISTS ${MYSQL_NAME};
+    CREATE USER IF NOT EXISTS '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';
+    GRANT ALL PRIVILEGES ON ${MYSQL_NAME}.* TO '${MYSQL_USER}'@'%';
     FLUSH PRIVILEGES;
 EOF
 else
@@ -22,16 +22,18 @@ else
     exec "$@"
 fi
 
-if [ -f "$DB_NAME_FILE" ];then
+if [ -f "$MYSQL_NAME_FILE" ];then
     # Move database_dump.sql to /var/lib/mysql/$DB_NAME directory if $DB_NAME directory exists
     echo "Hello1"
-    mv $DB_NAME_FILE "/var/lib/mysql"
+    mv $MYSQL_NAME_FILE "/var/lib/mysql"
 fi
 
-if [ -f "/var/lib/mysql/$DB_NAME_FILE" ]; then
+if [ -f "/var/lib/mysql/$MYSQL_NAME_FILE" ]; then
     echo "Hi"
-    mysql -u "$DB_USER" -p"$DB_PASSWORD" "$DB_NAME" < "/var/lib/mysql/$DB_NAME_FILE"
+    mysql -u "$MYSQL_USER" -p"$MYSQL_PASSWORD" "$MYSQL_NAME" < "/var/lib/mysql/$MYSQL_NAME_FILE"
 fi
+
+mysql -u root -p"$MYSQL_ROOT_PASSWORD" -e "GRANT ALL ON *.* TO 'root'@'%' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD'; FLUSH PRIVILEGES;"
 
 service mariadb stop
 

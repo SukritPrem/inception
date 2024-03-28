@@ -33,7 +33,7 @@ services:
   #     - app-network
   mariadb:
     build:
-      context: ./mariadb/
+      context: ./requirements/mariadb/
     image: mariadb
     container_name: mariadb
     env_file:
@@ -68,7 +68,7 @@ services:
       - mariadb
       - redis
     build:
-      context: ./wordpress/
+      context: ./requirements/wordpress/
     image: wordpress
     container_name: wordpress
     env_file:
@@ -81,7 +81,7 @@ services:
       - app-network
   nginx:
     build:
-      context: ./nginx/
+      context: ./requirements/nginx/
     depends_on:
       - wordpress
     image: nginx

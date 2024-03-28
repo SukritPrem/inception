@@ -1,20 +1,21 @@
 
+all: build run
 
 build:
-	docker compose build
+	@docker compose -f ./srcs/docker-compose.yml build
 
 run:
-	docker compose up
+	@docker compose -f ./srcs/docker-compose.yml up
 
 stop:
-	docker compose down
+	@docker compose -f ./srcs/docker-compose.yml down
 
 setup:
 	@mkdir -p /home/spipitku/data/mariadb/
 	@mkdir -p /home/spipitku/data/wordpress/
 
 clean:
-	docker compose down --volumes
+	@docker compose -f ./srcs/docker-compose.yml down --volumes
 
 fclean: clean
 	rm -rf /home/spipitku/data/mariadb/
