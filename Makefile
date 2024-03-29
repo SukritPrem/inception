@@ -11,15 +11,15 @@ stop:
 	@docker compose -f ./srcs/docker-compose.yml down
 
 setup:
-	@mkdir -p /home/spipitku/data/mariadb/
-	@mkdir -p /home/spipitku/data/wordpress/
+	@mkdir -p ${HOME}/data/mariadb/
+	@mkdir -p ${HOME}/data/wordpress/
 
 clean:
 	@docker compose -f ./srcs/docker-compose.yml down --volumes
 
 fclean: clean
-	rm -rf /home/spipitku/data/mariadb/
-	rm -rf /home/spipitku/data/wordpress/
+	rm -rf ${HOME}/data/mariadb/
+	rm -rf ${HOME}/data/wordpress/
 
 clean-image:
 	docker rmi -f $(docker images -a -q)
